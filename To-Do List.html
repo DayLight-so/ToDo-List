@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <style>
+        body {
+            background-color: #0d0f2b;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .todo-container {
+            background: #2f3244;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .todo-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .form input[type="text"],
+        .form input[type="date"],
+        .form input[type="time"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .form button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: #7a86ff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .todo-list {
+            margin-top: 20px;
+        }
+
+        .todo-item {
+            background: #1d1f3a;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .todo-item.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .todo-actions button {
+            margin-left: 5px;
+            background: #444;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="todo-container">
+        <h1>To-do List</h1>
+        <div class="form">
+            <input type="text" id="todo-text" placeholder="Add a to-do..." />
+            <input type="date" id="todo-date" />
+            <input type="time" id="todo-time" />
+            <button onclick="addTodo()">+</button>
+        </div>
+        <div class="todo-list" id="todo-list"></div>
+    </div>
+
+    <script>
+        function addTodo() {
+            const text = document.getElementById('todo-text').value.trim();
+            const date = document.getElementById('todo-date').value;
+            const time = document.getElementById('todo-time').value;
+            if (!text) return alert("Task can't be empty");
+
+            const todoList = document.getElementById('todo-list');
+
+            const item = document.createElement('div');
+            item.className = 'todo-item';
+
+            const taskText = document.createElement('span');
+            taskText.innerHTML = `<strong>${text}</strong><br><small>Due: ${date || 'N/A'} ${time || ''}</small>`;
+
+            const actions = document.createElement('div');
+            actions.className = 'todo-actions';
+
+            const doneBtn = document.createElement('button');
+            doneBtn.textContent = '✓';
+            doneBtn.onclick = () => {
+                item.classList.toggle('completed');
+            };
+
+            const delBtn = document.createElement('button');
+            delBtn.textContent = '🗑';
+            delBtn.onclick = () => item.remove();
+
+            actions.appendChild(doneBtn);
+            actions.appendChild(delBtn);
+
+            item.appendChild(taskText);
+            item.appendChild(actions);
+
+            todoList.appendChild(item);
+
+            document.getElementById('todo-text').value = '';
+            document.getElementById('todo-date').value = '';
+            document.getElementById('todo-time').value = '';
+        }
+    </script>
+</body>
+
+</html>
